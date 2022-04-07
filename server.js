@@ -17,10 +17,8 @@ app.use(cors());
 const db = knex ({
   client: 'pg',
   connection: {
-    host : '127.0.0.1',
-    user : 'postgres',
-    password : '1231',
-    database : 'api-db'
+    host: process.env.DATABASE_URL,
+    ssl: true,
   }
 });
 
@@ -78,3 +76,14 @@ const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
   console.log(`listening to port ${PORT}`);
 });
+
+// CREATE TABLE userdata(
+// 	id serial PRIMARY KEY, 
+// 	name VARCHAR(100),
+// 	address text,
+// 	religion VARCHAR(100),
+// 	mobile VARCHAR(100),
+// 	email text,
+// 	member VARCHAR(100),
+// 	created TIMESTAMP
+// )
