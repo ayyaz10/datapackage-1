@@ -2,8 +2,8 @@ const {
   v4: uuidv4
 } = require('uuid');
 const express = require('express');
-var path = require("path");
-const cors = require('cors');
+// var path = require("path");
+// const cors = require('cors');
 // const ExcelJS = require('exceljs');
 const xlsx = require('xlsx');
 const app = express();
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-app.use(cors());
+// app.use(cors());
 
 function addDataToExcel(userData) {
   // console.log(userData)
