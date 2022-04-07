@@ -1,6 +1,7 @@
 const {
   v4: uuidv4
 } = require('uuid');
+const knex = require('knex');
 const express = require('express');
 // var path = require("path");
 const cors = require('cors');
@@ -12,6 +13,18 @@ app.use(express.urlencoded({
   extended: true
 }));
 app.use(cors());
+
+const db = knex ({
+  client: 'pg',
+  connection: {
+    host : '127.0.0.1',
+    user : 'postgres',
+    password : '1231',
+    database : 'api-db'
+  }
+});
+
+
 
 function addDataToExcel(userData) {
   const wb = xlsx.readFile('./userdata.xlsx');
@@ -31,10 +44,23 @@ app.get('/', function (req, res) {
   res.send('successs');
 })
 
-app.post('/emaildata', function (req, res) {
+app.post('/userdata', function (req, res) {
   try {
-    const userData = req.body.jsonFormData;
-    addDataToExcel(userData);
+    const { name, address, religion, mobile, email, member } = req.body;
+    console.log(address)
+    db('userdetail').insert({
+      name: name,
+      address: address,
+      religion: religion,
+      mobile: mobile,
+      email: email,
+      member: member,
+      created: new Date(),
+    })
+    .then(data => {
+      console.log('helo')
+    })
+    // addDataToExcel(userData);
     res.status(200).send({
       isSuccess: true
     })
