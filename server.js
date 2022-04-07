@@ -14,7 +14,7 @@ app.use(express.urlencoded({
 app.use(cors());
 
 function addDataToExcel(userData) {
-  const wb = xlsx.readFile('/assets/userdata.xlsx');
+  const wb = xlsx.readFile('userdata.xlsx');
   const ws = wb.Sheets['userdata'];
   const data = xlsx.utils.sheet_to_json(ws)
   // console.log(ws)
@@ -23,7 +23,7 @@ function addDataToExcel(userData) {
   const newws = xlsx.utils.json_to_sheet(data);
   xlsx.utils.book_append_sheet(newWorkbook, newws, "userdata");
 
-  xlsx.writeFile(newWorkbook, "/assets/userdata.xlsx");
+  xlsx.writeFile(newWorkbook, "userdata.xlsx");
 
 }
 
