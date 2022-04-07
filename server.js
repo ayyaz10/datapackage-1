@@ -1,6 +1,7 @@
 const {
   v4: uuidv4
 } = require('uuid');
+const {google} = require('googleapis');
 const knex = require('knex');
 const express = require('express');
 // var path = require("path");
@@ -36,6 +37,7 @@ const db = knex ({
 
 
 
+
 function addDataToExcel(userData) {
   const wb = xlsx.readFile('./userdata.xlsx');
   const ws = wb.Sheets['userdata'];
@@ -56,8 +58,25 @@ function addDbDataToExcel(userData) {
   xlsx.writeFile(wb, "./userdatadb.xlsx");
 }
 
-app.get('/', function (req, res) {
-  res.send('successs');
+
+
+app.get('/', async function (req, res) {
+ 
+  // Get metadata about apreadsheet
+  // const metaData = await googleSheets.spreadsheets.get({
+  //   auth,
+  //   spreadsheetId
+  // })
+
+
+  // // Read rows from spreadsheet
+  // const getRows = await googleSheets.spreadsheets.values.get({
+  //   auth, 
+  //   spreadsheetId,
+  //   range: "Sheet1"
+  // })
+
+  // res.send(getRows.data);
 })
 
 
@@ -66,10 +85,32 @@ async function  getDbData() {
   addDbDataToExcel(userdata)
 }
 
-app.post('/userdata', function (req, res) {
+app.post('/userdata', async function (req, res) {
   try {
     const { name, address, religion, mobile, email, member } = req.body;
+    const auth = new google.auth.GoogleAuth({
+      keyFile: 'credentials.json',
+      scopes: 'https://www.googleapis.com/auth/spreadsheets',
+    });
+    // Create client instance for auth
+    const client =  auth.getClient();
     
+    // Instance for Google Sheets API
+    const googleSheets = google.sheets({version: 'v4', auth: client});
+    const spreadsheetId = '1CAfqG0ysuZmwI5yNabGZQT6CqMZLtGpB-uHAbEo8kEw';
+    // console.log(googleSheets)
+    const data = await googleSheets.spreadsheets.values.append({
+      auth,
+      spreadsheetId,
+      range:"Sheet1",
+      valueInputOption: "USER_ENTERED",
+      resource: {
+        values: [
+          ['1', name, address, religion, mobile, email, member, new Date()]
+        ]
+      }
+    })
+    // console.log(data)
     db('userdata').insert({
       name: name,
       address: address,
