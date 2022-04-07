@@ -2,19 +2,18 @@ const {
   v4: uuidv4
 } = require('uuid');
 const express = require('express');
-var path = require("path");
-const cors = require('cors');
+// var path = require("path");
+// const cors = require('cors');
 // const ExcelJS = require('exceljs');
 const xlsx = require('xlsx');
 const app = express();
 
 app.use(express.json());
 // app.use(router);
-app.use(express.static(__dirname + "/public"));
 app.use(express.urlencoded({
   extended: true
 }));
-app.use(cors());
+// app.use(cors());
 
 function addDataToExcel(userData) {
   // console.log(userData)
@@ -39,7 +38,6 @@ app.get('/', function (req, res) {
 app.post('/emaildata', function (req, res) {
   try {
     const userData = req.body.jsonFormData;
-    // console.log(userData)
     addDataToExcel(userData);
     res.status(200).send({
       isSuccess: true
