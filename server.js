@@ -14,15 +14,25 @@ app.use(express.urlencoded({
 }));
 app.use(cors());
 
-const db = knex ({
-  client: 'pg',
-  connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  }
-});
+// const db = knex({
+//   client: 'pg',
+//   connection: {
+//     host : '127.0.0.1',
+//     user : 'postgres',
+//     password : '1231',
+//     database : 'api-db'
+//   }
+// });
+
+// const db = knex ({
+//   client: 'pg',
+//   connection: {
+//     connectionString: process.env.DATABASE_URL,
+//     ssl: {
+//       rejectUnauthorized: false
+//     }
+//   }
+// });
 
 
 
@@ -39,15 +49,27 @@ function addDataToExcel(userData) {
   xlsx.writeFile(newWorkbook, "./userdata.xlsx");
 
 }
+function addDbDataToExcel(userData) {
+  const wb = xlsx.utils.book_new();
+  const ws = xlsx.utils.json_to_sheet(userData);
+  xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
+  xlsx.writeFile(wb, "./userdatadb.xlsx");
+}
 
 app.get('/', function (req, res) {
   res.send('successs');
 })
 
+
+async function  getDbData() {
+  const userdata = await db.select("*").table('userdata');
+  addDbDataToExcel(userdata)
+}
+
 app.post('/userdata', function (req, res) {
   try {
     const { name, address, religion, mobile, email, member } = req.body;
-    console.log(address)
+    
     db('userdata').insert({
       name: name,
       address: address,
@@ -58,13 +80,14 @@ app.post('/userdata', function (req, res) {
       created: new Date(),
     })
     .then(data => {
-      console.log('helo')
+      getDbData();
       console.log(data)
+      res.status(200).send({
+        isSuccess: true
+      })
     })
     // addDataToExcel(userData);
-    res.status(200).send({
-      isSuccess: true
-    })
+
   } catch (error) {
     res.status(500).send({
       isSuccess: false
