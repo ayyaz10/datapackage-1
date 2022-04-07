@@ -46,7 +46,7 @@ app.post('/userdata', function (req, res) {
   try {
     const { name, address, religion, mobile, email, member } = req.body;
     console.log(address)
-    db('userdetail').insert({
+    db('userdata').insert({
       name: name,
       address: address,
       religion: religion,
@@ -57,6 +57,7 @@ app.post('/userdata', function (req, res) {
     })
     .then(data => {
       console.log('helo')
+      console.log(data)
     })
     // addDataToExcel(userData);
     res.status(200).send({
