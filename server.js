@@ -1,6 +1,7 @@
 const {
   v4: uuidv4
 } = require('uuid');
+const moment = require('moment');
 const {google} = require('googleapis');
 const knex = require('knex');
 const express = require('express');
@@ -14,7 +15,7 @@ app.use(express.urlencoded({
   extended: true
 }));
 app.use(cors());
-
+// console.log(moment().format('D/M/YYYY'))
 // const db = knex({
 //   client: 'pg',
 //   connection: {
@@ -85,6 +86,10 @@ async function  getDbData() {
   addDbDataToExcel(userdata)
 }
 
+function customId() {
+
+}
+
 app.post('/userdata', async function (req, res) {
   try {
     const { name, address, religion, mobile, email, member } = req.body;
@@ -98,6 +103,12 @@ app.post('/userdata', async function (req, res) {
     // Instance for Google Sheets API
     const googleSheets = google.sheets({version: 'v4', auth: client});
     const spreadsheetId = '1CAfqG0ysuZmwI5yNabGZQT6CqMZLtGpB-uHAbEo8kEw';
+
+
+
+
+  // console.log(getRows)
+
     // console.log(googleSheets)
     const data = await googleSheets.spreadsheets.values.append({
       auth,
@@ -106,7 +117,7 @@ app.post('/userdata', async function (req, res) {
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [
-          ['1', name, address, religion, mobile, email, member, new Date()]
+          [, name, address, religion, mobile, email, member, moment().format('D/M/YYYY')]
         ]
       }
     })
@@ -122,7 +133,7 @@ app.post('/userdata', async function (req, res) {
     })
     .then(data => {
       getDbData();
-      console.log(data)
+      // console.log(data)
       res.status(200).send({
         isSuccess: true
       })
