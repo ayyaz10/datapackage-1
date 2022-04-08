@@ -117,7 +117,7 @@ app.post('/userdata', async function (req, res) {
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [
-          [, name, address, religion, mobile, email, member, moment().format('D/M/YYYY')]
+          [name, address, religion, mobile, email, member, moment().format('D/M/YYYY')]
         ]
       }
     })
