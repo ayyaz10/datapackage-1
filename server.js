@@ -36,9 +36,6 @@ const db = knex ({
   }
 });
 
-
-
-
 function addDataToExcel(userData) {
   const wb = xlsx.readFile('./userdata.xlsx');
   const ws = wb.Sheets['userdata'];
