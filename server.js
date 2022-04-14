@@ -92,22 +92,43 @@ app.post('/usermaildata', async function (req, res) {
 
   try {
     db('emailer_site_userdata').insert({
-      name,
-      mobile,
-      email,
-      created: new Date()
-    }).then(data => {
+      name: name,
+      mobile: mobile,
+      email: email,
+      created: new Date(),
+    })
+    .then(data => {
+      // console.log(data)
       res.status(200).send({
         isSuccess: true
       })
     })
   } catch (error) {
-    console.error(error)
     res.status(500).send({
-      isSuccess: false,
-      error
+      isSuccess: false
     })
   }
+  // try {
+  //   db('emailer_site_userdata').insert({
+  //     name,
+  //     mobile,
+  //     email,
+  //     created: new Date()
+  //   }).then(data => {
+  //     res.status(200).send({
+  //       isSuccess: true
+  //     })
+  //   })
+
+  // } catch (error) {
+  //   console.error(error)
+  //   res.status(500).send({
+  //     isSuccess: false,
+  //     error
+  //   })
+  // }
+
+  
 })
 
 app.post('/userdata', async function (req, res) {
