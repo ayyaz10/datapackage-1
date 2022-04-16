@@ -16,7 +16,7 @@ app.use(express.urlencoded({
 }));
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "https://ayyaz10.github.io/");
   res.header("Access-Control-Allow-Headers", "origin, X-Reqeusted-With, Content-Type, Accept");
   next();
 })
@@ -203,7 +203,7 @@ app.listen(PORT, () => {
   console.log(`listening to port ${PORT}`);
 });
 
-// CREATE TABLE userdata(
+// CREATE TABLE data_collection(
 // 	id serial PRIMARY KEY, 
 // 	name VARCHAR(100),
 // 	address text,
