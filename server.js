@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
-app.use(cors());
+// app.use(cors());
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
 //   client: 'pg',
