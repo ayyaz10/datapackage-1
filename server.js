@@ -170,7 +170,7 @@ app.post('/userdata', async function (req, res) {
       }
     })
     // console.log(data)
-    db('userdata').insert({
+    db('data_collection').insert({
       name: name,
       address: address,
       religion: religion,
