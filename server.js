@@ -59,6 +59,7 @@ function addDbDataToExcel(userData) {
 
 
 app.get('/', async function (req, res) {
+  res.send('working')
  
   // Get metadata about apreadsheet
   // const metaData = await googleSheets.spreadsheets.get({
