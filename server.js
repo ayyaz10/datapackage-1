@@ -15,11 +15,15 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://ayyaz10.github.io/");
-  res.header("Access-Control-Allow-Headers", "origin, X-Reqeusted-With, Content-Type, Accept");
-  next();
-})
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "https://ayyaz10.github.io/");
+//   res.header("Access-Control-Allow-Headers", "origin, X-Reqeusted-With, Content-Type, Accept");
+//   next();
+// })
+var corsOptions = {
+  origin: 'http://example.com',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 // app.use(cors());
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
@@ -138,7 +142,7 @@ app.post('/usermaildata', async function (req, res) {
   
 })
 
-app.post('/userdata', async function (req, res) {
+app.post('/userdata', cors(corsOptions), async function (req, res) {
   try {
     const { name, address, religion, mobile, email, member } = req.body;
     const auth = new google.auth.GoogleAuth({
