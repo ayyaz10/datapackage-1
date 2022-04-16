@@ -21,7 +21,7 @@ app.use(express.urlencoded({
 //   next();
 // })
 var corsOptions = {
-  origin: 'http://example.com',
+  origin: 'https://ayyaz10.github.io/data-collection/',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 // app.use(cors());
