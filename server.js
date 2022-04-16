@@ -25,7 +25,8 @@ app.use(express.urlencoded({
 //   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 // }
 app.use(cors({
-  origin: "*"
+  origin: "https://ayyaz10.github.io/data-collection/",
+  methods: ["GET", "POST"]
 }));
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
