@@ -20,11 +20,13 @@ app.use(express.urlencoded({
 //   res.header("Access-Control-Allow-Headers", "origin, X-Reqeusted-With, Content-Type, Accept");
 //   next();
 // })
-var corsOptions = {
-  origin: 'https://ayyaz10.github.io/data-collection/',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-// app.use(cors());
+// var corsOptions = {
+//   origin: 'https://ayyaz10.github.io/',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// }
+app.use(cors({
+  origin: "https://ayyaz10.github.io/"
+}));
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
 //   client: 'pg',
@@ -142,7 +144,7 @@ app.post('/usermaildata', async function (req, res) {
   
 })
 
-app.post('/userdata', cors(corsOptions), async function (req, res) {
+app.post('/userdata', async function (req, res) {
   try {
     const { name, address, religion, mobile, email, member } = req.body;
     const auth = new google.auth.GoogleAuth({
