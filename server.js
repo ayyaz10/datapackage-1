@@ -26,7 +26,7 @@ app.use(express.urlencoded({
 //   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 // }
 app.use(cors({
-  origin: "https://ayyaz10.github.io/",
+  origin: "https://ayyaz10.github.io",
   methods: ["GET", "POST"]
 }));
 // app.use(cors({
