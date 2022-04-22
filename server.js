@@ -29,7 +29,9 @@ app.use(express.urlencoded({
 //   origin: "https://ayyaz10.github.io/sfckhforfm/",
 //   methods: ["GET", "POST"]
 // }));
-app.use(cors())
+app.use(cors({
+  origin: "*",
+}))
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
 //   client: 'pg',
@@ -215,10 +217,6 @@ app.post('/voterdata', async function(req, res) {
   // const databaseRes = await assignVoterId(req)
   // res.send('ok')
 })
-
-app.use(req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-}
 
 app.post('/sfckhuserdata', async function (req, res) {
   console.log(req.body)
