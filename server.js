@@ -33,7 +33,11 @@ app.use(express.urlencoded({
 //   origin: "https://test.microstun.com",
 //   methods: ["GET", "POST"]
 // }));
-app.use(cors("*"));
+// app.use(cors("*"));
+app.use(cors({
+  origin: ['https://test.microstun.com'],
+  credentials: true
+}));
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
 //   client: 'pg',
