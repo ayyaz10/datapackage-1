@@ -34,10 +34,16 @@ app.use(express.urlencoded({
 //   methods: ["GET", "POST"]
 // }));
 // app.use(cors("*"));
-app.use(cors({
-  origin: ['https://test.microstun.com'],
-  credentials: true
-}));
+// app.use(cors({
+//   origin: ['https://test.microstun.com'],
+//   credentials: true
+// }));
+
+var corsOptions = {
+  origin: 'https://test.microstun.com',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
 //   client: 'pg',
@@ -224,7 +230,7 @@ app.post('/voterdata', async function(req, res) {
   // res.send('ok')
 })
 
-app.post('/sfckhuserdata', async function (req, res) {
+app.post('/sfckhuserdata',  cors(corsOptions), async function (req, res) {
   console.log(req.body)
   const { name, address, mobile, email, tlamount, nameofbank } = req.body;
 
