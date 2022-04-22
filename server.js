@@ -29,6 +29,10 @@ app.use(express.urlencoded({
 //   origin: "https://ayyaz10.github.io",
 //   methods: ["GET", "POST"]
 // }));
+app.use(cors({
+  origin: "https://microstun.com",
+  methods: ["GET", "POST"]
+}));
 app.use(cors());
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
