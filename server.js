@@ -25,11 +25,11 @@ app.use(express.urlencoded({
 //   origin: 'https://ayyaz10.github.io/',
 //   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 // }
-app.use(cors({
-  origin: "https://ayyaz10.github.io/sfckhforfm/",
-  methods: ["GET", "POST"]
-}));
-// app.use(cors())
+// app.use(cors({
+//   origin: "https://ayyaz10.github.io/sfckhforfm/",
+//   methods: ["GET", "POST"]
+// }));
+app.use(cors())
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
 //   client: 'pg',
