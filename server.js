@@ -11,6 +11,8 @@ const cors = require('cors');
 const xlsx = require('xlsx');
 const app = express();
 
+app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({
   extended: false
@@ -39,10 +41,10 @@ app.use(express.urlencoded({
 //   credentials: true
 // }));
 
-var corsOptions = {
-  origin: 'https://test.microstun.com',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+// var corsOptions = {
+//   origin: 'https://test.microstun.com',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// }
 
 // console.log(moment().format('D/M/YYYY'))
 // const db = knex({
@@ -230,7 +232,7 @@ app.post('/voterdata', async function(req, res) {
   // res.send('ok')
 })
 
-app.post('/sfckhuserdata',  cors(corsOptions), async function (req, res) {
+app.post('/sfckhuserdata', async function (req, res) {
   console.log(req.body)
   const { name, address, mobile, email, tlamount, nameofbank } = req.body;
 
