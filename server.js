@@ -27,7 +27,7 @@ app.use(express.urlencoded({
 // }
 app.use(cors({
   origin: "https://ayyaz10.github.io",
-  methods: ["GET", "POST"]
+  // methods: ["GET", "POST"]
 }));
 // app.use(cors())
 // console.log(moment().format('D/M/YYYY'))
