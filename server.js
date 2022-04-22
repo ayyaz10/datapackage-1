@@ -216,7 +216,9 @@ app.post('/voterdata', async function(req, res) {
   // res.send('ok')
 })
 
-
+app.use(req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+}
 
 app.post('/sfckhuserdata', async function (req, res) {
   console.log(req.body)
