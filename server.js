@@ -21,7 +21,7 @@ app.use(express.urlencoded({
 //   optionsSuccessStatus: 200,
 // }
 // app.use(cors(corsOp))
-app.use(cors());
+// app.use(cors());
 // app.use(function(req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -394,7 +394,7 @@ app.post('/userdata', async function (req, res) {
 })
 
 
-app.post('/userdata', async function (req, res) {
+app.post('/userdata', cors(), async function (req, res) {
   try {
     const { name, address, religion, mobile, email, member } = req.body;
     if(!validator.isMobilePhone(mobile)) {
