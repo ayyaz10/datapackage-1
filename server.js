@@ -263,7 +263,7 @@ app.post('/sfckhuserdata', async function (req, res) {
     }
 
     if(!validator.isEmpty(address) && !validator.isEmpty(mobile) && !validator.isEmpty(email) && !validator.isEmpty(tlamount) && !validator.isEmpty(nameofbank)) {
-      db('sfc_kh4fm_userdata').insert({
+      db('sfj_kh4fm_userdata').insert({
         name,
         address,
         mobile,
@@ -481,7 +481,7 @@ app.listen(PORT, () => {
   console.log(`listening to port ${PORT}`);
 });
 
-// CREATE TABLE sfc_kh4fm_userdata(
+// CREATE TABLE sfj_kh4fm_userdata(
 //  id serial PRIMARY KEY, 
 //  name VARCHAR(100),
 //  address text,
