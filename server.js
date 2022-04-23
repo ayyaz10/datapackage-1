@@ -105,9 +105,16 @@ app.post('/sfjkhuserdata', async function (req, res) {
   }
 });
 
+async function  getDbData() {
+  const userdata = await db.select("*").table('userdata');
+  addDbDataToExcel(userdata)
+}
+
 
 app.post('/userdata', async function (req, res) {
   try {
+
+    
     const { name, address, religion, mobile, email, member } = req.body;
     if(!validator.isMobilePhone(mobile)) {
       res.send({
