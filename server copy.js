@@ -119,15 +119,12 @@ app.get('/', async function (req, res) {
   // res.send(getRows.data);
 })
 
+// Voter website router
 
 async function  getDbData() {
   const userdata = await db.select("*").table('userdata');
   addDbDataToExcel(userdata)
 }
-
-async function getPkDbData() {
-  // const idData = await.db.select()
-} 
 
 function assignVoterId(id, numToAdd) {
 const obj = {};
@@ -137,7 +134,6 @@ function addZeros(preZeroId) {
   if (preZeroId < 9) {
     zeroAddedId = `0000${preZeroId}`;
   }else if (preZeroId > 9 && preZeroId < 99) {
-    // console.log('should')
     zeroAddedId = `000${preZeroId}`;
   } else if (preZeroId > 99 && preZeroId < 999) {
     zeroAddedId = `00${preZeroId}`;
@@ -147,36 +143,33 @@ function addZeros(preZeroId) {
     zeroAddedId = `${preZeroId}`;
   }
    obj.id = zeroAddedId;
-   console.log(obj)
 }
-  // console.log(id + " my")
   if (id) {
     if (numToAdd === 3) {
       
       id = id + numToAdd;
       addZeros(id);
       numToAdd = 5;
-      // console.log(1)
+  
     } else if (numToAdd === 5) {
       id = id + numToAdd;
       addZeros(id);
       numToAdd = 7;
-      // console.log(2)
+  
     } else {
       id = id + numToAdd;
       addZeros(id);
       numToAdd = 3;
-      // console.log(3)
+  
     }
   } else {
     id = 1;
     addZeros(id);
     numToAdd = 3;
-    // console.log(4)
+
   }
   // obj.id = id;
   obj.numToAdd = numToAdd;
-  // console.log(obj)
   return obj;
 
 }
@@ -184,7 +177,6 @@ function addZeros(preZeroId) {
 
 async function insertNumToAdd(number) {
   const dbNumToAdd = await getDbNumToAdd();
-  // console.log(dbNumToAdd)
   if(typeof dbNumToAdd == 'undefined') {
     const dbNum = db('num_to_add').insert({
       number
@@ -198,12 +190,9 @@ async function insertNumToAdd(number) {
 
 async function getDbVoterId() {
    const dbData = await db.select().from('pk_userdata').orderBy([{column:"id",order:"desc"}]).limit(1)
-  //  console.log(dbData + "getDbVoterId")
-  // console.log(dbData.length)
    if(dbData.length < 1) {
     return;
    }
-  //  console.log(Number(dbData[0].voter_id))
    return dbData[0].voter_id;
 }
 // HAVING ISSUE WITH 9
@@ -213,10 +202,6 @@ async function getDbNumToAdd() {
     return;
    } 
      return dbNumToAdd[0].number;
-  //  if(dbNumToAdd.length < 1) {
-  //    return
-  //  } 
-  //  console.log(dbNumToAdd)
 }
 
 app.post('/voterdata', async function(req, res) {
@@ -241,6 +226,8 @@ app.post('/voterdata', async function(req, res) {
   // const databaseRes = await assignVoterId(req)
   // res.send('ok')
 })
+// ****************
+
 
 app.post('/sfjkhuserdata', async function (req, res) {
   console.log(req.body)
