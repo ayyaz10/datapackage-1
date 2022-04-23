@@ -8,9 +8,20 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 
-app.use(cors());
+// app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+var whitelist = ['https://ayyaz10.github.io/data-collection/', 'https://ayyaz10.github.io/sfckhforfm/']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 const db = knex ({
   client: 'pg',
@@ -25,8 +36,92 @@ const db = knex ({
 app.get('/', async function (req, res) {
   res.send('working')
 })
+
+
+
+app.post('/userdata', corsOptions, async function (req, res) {
+  try {
+    const { name, address, religion, mobile, email, member } = req.body;
+    if(!validator.isMobilePhone(mobile)) {
+      res.send({
+        isSuccess: false,
+        msg: "Please enter a valid Mobile Number"
+      })
+      return
+    }
+    if(!validator.isEmail(email)) {
+      res.send({
+        isSuccess: false,
+        msg: "Please enter a valid Email Address"
+      })
+      return
+    }
+
+    if(!validator.isEmpty(address) && !validator.isEmpty(religion) && !validator.isEmpty(mobile) && !validator.isEmpty(email) && !validator.isEmpty(member)) {
+      const auth = new google.auth.GoogleAuth({
+        keyFile: 'credentials.json',
+        scopes: 'https://www.googleapis.com/auth/spreadsheets',
+      });
+      // Create client instance for auth
+      const client =  auth.getClient();
+      
+      
+      // Instance for Google Sheets API
+      const googleSheets = google.sheets({version: 'v4', auth: client});
+      const spreadsheetId = '1CAfqG0ysuZmwI5yNabGZQT6CqMZLtGpB-uHAbEo8kEw';
+  
+  
+  
+  
+    // console.log(getRows)
+  
+      // console.log(googleSheets)
+      const data = await googleSheets.spreadsheets.values.append({
+        auth,
+        spreadsheetId,
+        range:"Sheet1",
+        valueInputOption: "USER_ENTERED",
+        resource: {
+          values: [
+            [name, address, religion, mobile, email, member, moment().format('D/M/YYYY')]
+          ]
+        }
+      })
+  
+      // console.log(data)
+      db('data_collection').insert({
+        name: name,
+        address: address,
+        religion: religion,
+        mobile: mobile,
+        email: email,
+        member: member,
+        created: new Date(),
+      })
+      .then(data => {
+        getDbData();
+        // console.log(data)
+        res.status(200).send({
+          isSuccess: true
+        })
+      })
+      // addDataToExcel(userData);
+    } else {
+      res.send({
+        isSuccess: false,
+        msg: "Please fill the empty fields"
+      })
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).send({
+      isSuccess: false
+    })
+  }
+})
+
 // Khalistan fund router /sfjkhuserdata
-app.post('/sfjkhuserdata', async function (req, res) {
+app.post('/sfjkhuserdata', corsOptions, async function (req, res) {
   console.log(req.body)
   const { name, address, mobile, email, tlamount, nameofbank } = req.body;
 
