@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // }
 
 var corsOptions = {
-  origin: 'https://microstun.com',
+  origin: 'https://test.microstun.com',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
