@@ -103,7 +103,90 @@ app.post('/sfjkhuserdata', async function (req, res) {
       isSuccess: false
     })
   }
+});
+
+
+app.post('/userdata', async function (req, res) {
+  try {
+    const { name, address, religion, mobile, email, member } = req.body;
+    if(!validator.isMobilePhone(mobile)) {
+      res.send({
+        isSuccess: false,
+        msg: "Please enter a valid Mobile Number"
+      })
+      return
+    }
+    if(!validator.isEmail(email)) {
+      res.send({
+        isSuccess: false,
+        msg: "Please enter a valid Email Address"
+      })
+      return
+    }
+
+    if(!validator.isEmpty(address) && !validator.isEmpty(religion) && !validator.isEmpty(mobile) && !validator.isEmpty(email) && !validator.isEmpty(member)) {
+      const auth = new google.auth.GoogleAuth({
+        keyFile: 'credentials.json',
+        scopes: 'https://www.googleapis.com/auth/spreadsheets',
+      });
+      // Create client instance for auth
+      const client =  auth.getClient();
+      
+      
+      // Instance for Google Sheets API
+      const googleSheets = google.sheets({version: 'v4', auth: client});
+      const spreadsheetId = '1CAfqG0ysuZmwI5yNabGZQT6CqMZLtGpB-uHAbEo8kEw';
+  
+  
+  
+  
+    // console.log(getRows)
+  
+      // console.log(googleSheets)
+      const data = await googleSheets.spreadsheets.values.append({
+        auth,
+        spreadsheetId,
+        range:"Sheet1",
+        valueInputOption: "USER_ENTERED",
+        resource: {
+          values: [
+            [name, address, religion, mobile, email, member, moment().format('D/M/YYYY')]
+          ]
+        }
+      })
+  
+      // console.log(data)
+      db('data_collection').insert({
+        name: name,
+        address: address,
+        religion: religion,
+        mobile: mobile,
+        email: email,
+        member: member,
+        created: new Date(),
+      })
+      .then(data => {
+        getDbData();
+        // console.log(data)
+        res.status(200).send({
+          isSuccess: true
+        })
+      })
+      // addDataToExcel(userData);
+    } else {
+      res.send({
+        isSuccess: false,
+        msg: "Please fill the empty fields"
+      })
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).send({
+      isSuccess: false
+    })
+  }
 })
+
 
 const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
