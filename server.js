@@ -22,11 +22,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     }
 //   }
 // }
-app.use(cors());
-var corsOptions = {
-  origin: "https://test.microstun.com",
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+// app.use(cors());
+// var corsOptions = {
+//   origin: "https://test.microstun.com",
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// }
+
+app.use((req, res, next) => {
+  const allowedOrigins = ['https://test.microstun.com'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  //res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8020');
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', true);
+  return next();
+});
 
 const db = knex ({
   client: 'pg',
@@ -43,7 +56,7 @@ app.get('/', async function (req, res) {
 })
 
 // Khalistan fund router /sfjkhuserdata
-app.post('/sfjkhuserdata', cors(corsOptions), async function (req, res) {
+app.post('/sfjkhuserdata', async function (req, res) {
   console.log(req.body)
   const { name, address, mobile, email, tlamount, nameofbank } = req.body;
 
