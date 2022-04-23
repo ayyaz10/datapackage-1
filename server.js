@@ -112,7 +112,7 @@ function addDbDataToExcel(userData) {
 
 
 async function getDbData() {
-  const userdata = await db.select("*").table('userdata');
+  const userdata = await db.select("*").table('data_collection');
   addDbDataToExcel(userdata)
 }
 
