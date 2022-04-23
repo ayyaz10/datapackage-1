@@ -22,9 +22,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     }
 //   }
 // }
-
+app.use(cors());
 var corsOptions = {
-  origin: 'https://test.microstun.com',
+  origin: "https://test.microstun.com",
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
