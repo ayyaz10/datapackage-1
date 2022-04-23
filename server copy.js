@@ -552,5 +552,5 @@ app.post('/sfjkhuserdata', cors({origin: "*"}), async function (req, res) {
 
 // CREATE TABLE num_to_add(
 //  id serial PRIMARY KEY,
-//  number VARCHAR(100),
+//  number VARCHAR(100)
 // )

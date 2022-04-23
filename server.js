@@ -105,7 +105,7 @@ function assignVoterId(id, numToAdd) {
        return dbNumToAdd[0].number;
   }
   
-  app.post('/voterdata', cors({origin: "*"}), async function(req, res) {
+  app.post('/voterdata', async function(req, res) {
     const { name, mobile, email } = req.body;
     const dbVoterId = await getDbVoterId();
     const dbNumToAdd = await getDbNumToAdd();
