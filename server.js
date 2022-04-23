@@ -43,7 +43,7 @@ app.get('/', async function (req, res) {
 })
 
 // Khalistan fund router /sfjkhuserdata
-app.post('/sfjkhuserdata', corsOptions, async function (req, res) {
+app.post('/sfjkhuserdata', cors(corsOptions), async function (req, res) {
   console.log(req.body)
   const { name, address, mobile, email, tlamount, nameofbank } = req.body;
 
