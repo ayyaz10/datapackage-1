@@ -242,7 +242,7 @@ app.post('/voterdata', async function(req, res) {
   // res.send('ok')
 })
 
-app.post('/sfckhuserdata', async function (req, res) {
+app.post('/sfjkhuserdata', async function (req, res) {
   console.log(req.body)
   const { name, address, mobile, email, tlamount, nameofbank } = req.body;
 
