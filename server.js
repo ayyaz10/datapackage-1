@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // }
 
 app.use((req, res, next) => {
-  const allowedOrigins = ['https://test.microstun.com', 'https://ayyaz10.github.io/'];
+  const allowedOrigins = ['https://test.microstun.com', 'https://ayyaz10.github.io'];
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
        res.setHeader('Access-Control-Allow-Origin', origin);
