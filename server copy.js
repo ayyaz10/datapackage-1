@@ -318,10 +318,6 @@ app.post('/userdata', async function (req, res) {
     }
 
     if(!validator.isEmpty(address) && !validator.isEmpty(religion) && !validator.isEmpty(mobile) && !validator.isEmpty(email) && !validator.isEmpty(member)) {
-      async function  getDbData() {
-        const userdata = await db.select("*").table('userdata');
-        addDbDataToExcel(userdata)
-      }
       const auth = new google.auth.GoogleAuth({
         keyFile: 'credentials.json',
         scopes: 'https://www.googleapis.com/auth/spreadsheets',

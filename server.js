@@ -12,22 +12,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// var whitelist = ['https://test.microstun.com']
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
-// app.use(cors());
-// var corsOptions = {
-//   origin: "https://test.microstun.com",
-//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-// }
-
 app.use((req, res, next) => {
   const allowedOrigins = ['https://test.microstun.com', 'https://ayyaz10.github.io'];
   const origin = req.headers.origin;
@@ -105,7 +89,29 @@ app.post('/sfjkhuserdata', async function (req, res) {
   }
 });
 
-async function  getDbData() {
+function addDataToExcel(userData) {
+  const wb = xlsx.readFile('./userdata.xlsx');
+  const ws = wb.Sheets['userdata'];
+  const data = xlsx.utils.sheet_to_json(ws)
+  // console.log(ws)
+  data.push(userData)
+  const newWorkbook = xlsx.utils.book_new();
+  const newws = xlsx.utils.json_to_sheet(data);
+  xlsx.utils.book_append_sheet(newWorkbook, newws, "userdata");
+
+  xlsx.writeFile(newWorkbook, "./userdata.xlsx");
+
+}
+function addDbDataToExcel(userData) {
+  const wb = xlsx.utils.book_new();
+  const ws = xlsx.utils.json_to_sheet(userData);
+  xlsx.utils.book_append_sheet(wb, ws, "Sheet1");
+  xlsx.writeFile(wb, "./userdatadb.xlsx");
+}
+
+
+
+async function getDbData() {
   const userdata = await db.select("*").table('userdata');
   addDbDataToExcel(userdata)
 }
@@ -113,8 +119,6 @@ async function  getDbData() {
 
 app.post('/userdata', async function (req, res) {
   try {
-
-    
     const { name, address, religion, mobile, email, member } = req.body;
     if(!validator.isMobilePhone(mobile)) {
       res.send({
